@@ -1,0 +1,32 @@
+version: '3'
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - db
+        environment:
+            - DB_HOST=127.0.0.1
+            - DB_PORT=5432
+            - DB_DATABASE=postgres
+            - DB_USERNAME=postgres
+            - DB_PASSWORD=1234
+
+    db:
+        image: postgres:13
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=1234
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+
+volumes:
+    pgdata:
